@@ -1,7 +1,7 @@
 import numpy as np
 
 DAYS_PER_YEAR = 365          
-PEAK_DAY = 196               # ~15 July, warmest day of the year
+PEAK_DAY = 196               # ~15 July, warmest day of the year. Cosinus seasonal cycle is shifted so that the peak occurs on this day.
 
 def mean_temperature(n_years, T_start, T_end, n_spinup_years):
     spinup = np.full(n_spinup_years, T_start)
@@ -9,8 +9,8 @@ def mean_temperature(n_years, T_start, T_end, n_spinup_years):
     return np.concatenate([spinup, ramp])
 
 
-def make_forcing(n_years, T_start, T_end, n_spinup_years=40, amp=12.0,
-                 sigma_day=2.0, sigma_year=1.0, ddf=3.0, seed=0):
+def make_forcing(n_years, T_start, T_end, n_spinup_years=40, amp=12.0, # 24C of diff between summer and winter, so amplitude is 12C
+                 sigma_day=2.0, sigma_year=1.0, ddf=3.0, seed=0): # for each degree above 0C, 3mm of melt per day
     rng = np.random.default_rng(seed)
     n_total = n_spinup_years + n_years
     n_days = n_total * DAYS_PER_YEAR
